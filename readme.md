@@ -1,12 +1,11 @@
 <h1>Bookshelf API</h1>
 
 <p>
-    Bookshelf API  is a project that is built to complete my submisiion in <b>Belajar Membuat Aplikasi Back-End untuk Pemula</b>  at Dicoding.
+    Bookshelf API  is a project that is built to complete my submision of <b>Belajar Membuat Aplikasi Back-End untuk Pemula</b>  at Dicoding.
 </p>
 
 <p>
-    In this submission, the student is tasked to build some API based on some criteria to complete this class, the API needs to pass at least the mandatory testing that is given by Dicoding. And to get 5 stars, the student also needs to pass the Optional testing.
-    Here are some of the criteria :
+    In this submission, the student is tasked to build some API based on some criteria, the API needs to pass at least the mandatory testing that is given by Dicoding. And to get 5 stars rating, the student also needs to pass the Optional testing.
 </p>
 <p />
 
