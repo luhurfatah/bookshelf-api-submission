@@ -66,24 +66,115 @@ const addBook = (request, h) => {
 };
 
 const getAllBooks = (request, h) => {
-  const res = h.response({
-    status: 'success',
-    data: {
-      books: books.map((n) => ({
-        id: n.id,
-        name: n.name,
-        publisher: n.publisher})),
-    },
-  });
-  res.code(200);
-  return res;
+  const {name, reading, finished} = request.query;
+
+  if (name) {
+    const bookWithName = books.filter((book) => book.name.toLowerCase()
+        .includes('dicoding'));
+
+    const res = h.response({
+      status: 'success',
+      data: {
+        books: bookWithName.map((n) => ({
+          id: n.id,
+          name: n.name,
+          publisher: n.publisher,
+        })),
+      },
+    });
+
+    res.code(200);
+    return res;
+  }
+
+  if (reading == 0) {
+    const unreadingBooks = books.filter((book) => book.reading === false);
+    const res = h.response({
+      status: 'success',
+      data: {
+        books: unreadingBooks.map((n) => ({
+          id: n.id,
+          name: n.name,
+          publisher: n.publisher,
+        })),
+      },
+    });
+
+    res.code(200);
+    return res;
+  }
+
+  if (reading == 1) {
+    const readingBooks = books.filter((book) => book.reading === true);
+    const res = h.response({
+      status: 'success',
+      data: {
+        books: readingBooks.map((n) => ({
+          id: n.id,
+          name: n.name,
+          publisher: n.publisher,
+        })),
+      },
+    });
+
+    res.code(200);
+    return res;
+  }
+
+  if (finished == 0) {
+    const notFinishedBooks = books.filter((book) => book.finished === false);
+    const res = h.response({
+      status: 'success',
+      data: {
+        books: notFinishedBooks.map((n) => ({
+          id: n.id,
+          name: n.name,
+          publisher: n.publisher,
+        })),
+      },
+    });
+
+    res.code(200);
+    return res;
+  }
+
+  if (finished == 1) {
+    const finishedBooks = books.filter((book) => book.finished === true);
+    const res = h.response({
+      status: 'success',
+      data: {
+        books: finishedBooks.map((n) => ({
+          id: n.id,
+          name: n.name,
+          publisher: n.publisher,
+        })),
+      },
+    });
+
+    res.code(200);
+    return res;
+  }
+
+  if (!name && !finished && !reading) {
+    const res = h.response({
+      status: 'success',
+      data: {
+        books: books.map((n) => ({
+          id: n.id,
+          name: n.name,
+          publisher: n.publisher})),
+      },
+    });
+    res.code(200);
+    return res;
+  }
 };
 
 const getDetailedBook = (request, h) => {
   const {bookId} = request.params;
-  const theBook = books.filter((n) => n.id = bookId)[0];
+  const theBook = books.filter((n) => n.id == bookId)[0];
 
-  if (theBook) {
+  if (theBook !== undefined) {
     const res = h.response({
       status: 'success',
       data: {
@@ -151,5 +242,27 @@ const updateSpecifiedBook = (request, h) => {
   return res;
 };
 
+const deleteSepecifiedBook = (request, h) => {
+  const {bookId} = request.params;
+  const theBook = books.findIndex((book) => book.id == bookId);
+  if (theBook < 0) {
+    const res = h.response({
+      status: 'fail',
+      message: 'Buku gagal dihapus. Id tidak ditemukan',
+    });
+    res.code(404);
+    return res;
+  }
 
-module.exports = {addBook, getAllBooks, getDetailedBook, updateSpecifiedBook};
+  books.splice(theBook, 1);
+  const res = h.response({
+    status: 'success',
+    message: 'Buku berhasil dihapus',
+  });
+  res.code(200);
+  return res;
+};
+
+
+module.exports = {addBook, getAllBooks, getDetailedBook,
+  updateSpecifiedBook, deleteSepecifiedBook};
